@@ -7,10 +7,16 @@ export const typeDefs = gql`
         id: Int
         title: String
         content: String
-        auther: User
-        autherId: Int
+        author: User
+        authorId: Int
         createdAt: DateTime
         updatedAt: DateTime
+    }
+
+    input PostInput {
+        title: String!
+        content: String!
+        authorId: Int!
     }
 
     type User {
@@ -21,8 +27,17 @@ export const typeDefs = gql`
         updatedAt: DateTime
     }
 
+    input UserInput {
+        name: String!
+    }
+
     type Query {
         getUsers: [User]!
         getPosts: [Post]!
+    }
+
+    type Mutation {
+        createUser(input: UserInput): User!
+        createPost(input: PostInput): Post!
     }
 `

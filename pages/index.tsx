@@ -10,6 +10,10 @@ const getAllUsersQuery = gql`
     getUsers {
       id
       name
+      posts {
+        id
+        title
+      }
       createdAt
       updatedAt
     }
@@ -22,8 +26,8 @@ const getAllPostsQuery = gql`
       id
       title
       content
-      autherId
-      auther {
+      authorId
+      author {
         id
         name
       }
@@ -35,13 +39,18 @@ const getAllPostsQuery = gql`
 
 const Home: NextPage = () => {
   const {data, loading, error} = useQuery(getAllUsersQuery);
-  const {data: postsData } = useQuery(getAllPostsQuery);
+  const {data: postsData, error: getPostsError } = useQuery(getAllPostsQuery);
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error: {error.message}</p>
 
-  const users = data.getUsers ?? [];
-  const posts = postsData.getPosts ?? [];
+  console.log(postsData);
+  console.log(getPostsError);
+
+  const users = data?.getUsers ?? [];
+  const posts = postsData?.getPosts ?? [];
+
+  console.log(users);
 
   return (
     <div className={styles.container}>
@@ -56,13 +65,20 @@ const Home: NextPage = () => {
           {users.map((user) => (
             <li key={user.id}>
               <p>{user.name}: {user.createdAt}</p>
+              <ul>
+                {user.posts.map((post) =>
+                <li key={post.id}>
+                  <p>{post.title} : {post.createdAt}</p>
+                </li>                      
+                )}
+              </ul>
             </li>
           ))}
         </ul>
         <ul>
           {posts.map((post) => (
             <li key={post.id}>
-              <p>{post.title}: {post.createdAt}</p>
+              <p>{post.title} - {post.author?.name} : {post.createdAt}</p>
             </li>
           ))}
         </ul>
