@@ -38,3 +38,7 @@ yarn-error.log*
 
 # environment variables
 .env
+
+# prisma database
+prisma/database/database.sqlite
+prisma/database/database.sqlite-journal
