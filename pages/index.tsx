@@ -39,18 +39,13 @@ const getAllPostsQuery = gql`
 
 const Home: NextPage = () => {
   const {data, loading, error} = useQuery(getAllUsersQuery);
-  const {data: postsData, error: getPostsError } = useQuery(getAllPostsQuery);
+  const {data: postsData } = useQuery(getAllPostsQuery);
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error: {error.message}</p>
 
-  console.log(postsData);
-  console.log(getPostsError);
-
   const users = data?.getUsers ?? [];
   const posts = postsData?.getPosts ?? [];
-
-  console.log(users);
 
   return (
     <div className={styles.container}>
