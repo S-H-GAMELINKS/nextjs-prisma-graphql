@@ -1,26 +1,10 @@
 export const resolvers = {
     Query: {
-        getUsers: () => {
-            return [
-                {
-                    id: 1,
-                    name: 'John',
-                    posts: []
-                }
-            ]
+        getUsers: (parent, args, context) => {
+            return context.prisma.user.findMany();
         },
-        getPosts: () => {
-            return [
-                {
-                    id: 1,
-                    title: 'HALO',
-                    content: 'Awesomw HALO',
-                    auther: {
-                        id: 1,
-                        name: 'John',
-                    }
-                }
-            ]
+        getPosts: (parent, args, context) => {
+            return context.prisma.post.findMany();
         }
     }
 }
